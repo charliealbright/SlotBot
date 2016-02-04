@@ -11,8 +11,13 @@ var router = express.Router()
 
 router.post('/', function(request, response) {
 	response.json({
-		  "response_type": "ephemeral",
-		  "text": "Development of SlotBot is currently underway!"
+		"response_type": "ephemeral",
+		"text": "Development of SlotBot is currently underway!",
+		"attachments": [
+			{
+				"text": request.body.text
+			}
+		]
 	  });
 });
 
