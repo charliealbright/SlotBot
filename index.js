@@ -10,7 +10,10 @@ app.set('port', (process.env.PORT || 5000));
 var router = express.Router()
 
 router.get('/', function(request, response) {
-  response.json({message: "It works!"});
+  response.json({
+		  "response_type": "ephemeral",
+		  "text": "Development of SlotBot is currently underway!"
+	  });
 });
 
 app.use('/api', router);
