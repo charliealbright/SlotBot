@@ -1,16 +1,14 @@
-# node-js-getting-started
+# SlotBot
 
-A barebones Node.js app using [Express 4](http://expressjs.com/).
-
-This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
+A Slack bot that facilitates organizing groups to play on Xbox live.
 
 ## Running Locally
 
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
 
 ```sh
-$ git clone git@github.com:heroku/node-js-getting-started.git # or clone your own fork
-$ cd node-js-getting-started
+$ git clone https://github.com/charliealbright/SlotBot.git # or clone your own fork
+$ cd SlotBot
 $ npm install
 $ npm start
 ```
