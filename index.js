@@ -20,21 +20,13 @@ router.post('/', function (request, response) {
     if (request.body.text.match(helpRE)) {
         setResponse(request, response, "ephemeral", "Here is teh HALP");
 
-    } else if (request.body.text.match(helpRE)) {
-
+    } else if (request.body.text.match(isLateRE)) {
+        var match = request.body.text.match(isLateRE);
+        setResponse(request, response, "in_channel", match[0] + " has been removed :(", request.body.text);
+        //REMOVE FROM PARTY
     } else {
         setResponse(request, response, "in_channel", request.body.user_name, request.body.text);
     }
-
-    //	response.json({
-    //		"response_type": "ephemeral",
-    //		"text": "Development of SlotBot is currently underway!",
-    //		"attachments": [
-    //			{
-    //				"text": request.body.text
-    //			}
-    //		]
-    //	  });
 });
 
 
