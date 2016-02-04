@@ -23,7 +23,7 @@ router.post('/', function (request, response) {
     } else if (request.body.text.match(helpRE)) {
 
     } else {
-        setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
+        setResponse(request, response, "in_channel", request.body.user_name, request.body.text);
     }
 
     //	response.json({
