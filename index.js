@@ -22,10 +22,10 @@ router.post('/', function (request, response) {
 
     } else if (request.body.text.match(isLateRE)) {
         var match = request.body.text.match(isLateRE);
-        setResponse(request, response, "in_channel", match[0] + " has been removed :(", request.body.text);
+        setResponse(request, response, "in_channel", match[1] + " has been removed :(");
         //REMOVE FROM PARTY
     } else {
-        setResponse(request, response, "in_channel", request.body.user_name, request.body.text);
+        setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
     }
 });
 
