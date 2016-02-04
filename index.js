@@ -15,7 +15,7 @@ router.post('/', function(request, response) {
 		  "text": "Development of SlotBot is currently underway!",
 		"attachments": [
 			{
-				"text": request.body
+				"text": "Input was: " + request.body.command;
 			}
 		]
 	  });
