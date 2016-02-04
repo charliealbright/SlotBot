@@ -15,14 +15,14 @@ var router = express.Router()
 router.post('/', function (request, response) {
 
     var helpRE = /help/i;
-    var isLateRE = /(.+)is late/i;
+    var isLateRE = /(@?)(.+)is late/i;
 
     if (request.body.text.match(helpRE)) {
         setResponse(request, response, "ephemeral", "Here is teh HALP");
 
     } else if (request.body.text.match(isLateRE)) {
         var match = request.body.text.match(isLateRE);
-        setResponse(request, response, "in_channel", match[1] + " has been removed :(");
+        setResponse(request, response, "in_channel", match[2] + " has been removed :(");
         //REMOVE FROM PARTY
     } else {
         setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
