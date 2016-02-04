@@ -1,6 +1,6 @@
 # SlotBot
 
-A Slack bot that facilitates organizing groups to play on Xbox live.
+Master organizer bot of squads for various games on Xbox.
 
 ## Running Locally
 
