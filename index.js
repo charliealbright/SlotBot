@@ -15,11 +15,15 @@ var router = express.Router()
 router.post('/', function (request, response) {
 
     var helpRE = /help/i;
+    var isLateRE = /(.+)is late/i;
 
     if (request.body.text.match(helpRE)) {
         setResponse(request, response, "ephemeral", "Here is teh HALP");
+
+    } else if (request.body.text.match(helpRE)) {
+
     } else {
-        setResponse(request, response, "ephemeral", "Development of SlotBot is currently underway!", request.body.text);
+        setResponse(request, response, "ephemeral", request.body.text, request.body.text);
     }
 
     //	response.json({
