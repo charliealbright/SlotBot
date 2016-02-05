@@ -27,20 +27,24 @@ app.use(bodyParser.json());
 
 app.set('port', (process.env.PORT || 5000));
 
-var router = express.Router()
+var router = express.Router();
 
 // COMMAND HANDLER
 router.post('/', function (request, response) {
     // Immediately grab userID for all future checks
     var userID = request.body.user_id;
-
+    var messageData = {
+        "userID": userID,
+        "request": request,
+        "response": response
+    };
 
     // DEV COMMANDS
     if (isDevRequest(request)) {
         // Check if user is dev
         if (isDev(userID)) {
             // User is dev
-            devCommands(request);
+            devCommands(messageData);
         } else {
             // User is not dev
             setResponse(request, response, "ephemeral", "*YOU ARE NOT AN AUTHORIZED DEV. THIS ACTION WILL BE LOGGED AND YOUR ACCOUNT WILL BE SUSPENDED AFTER FUTURE ATTEMPTS*.");
@@ -66,65 +70,10 @@ router.post('/', function (request, response) {
                     // RegEx Checks
                     var helpRE = /help/i;
                     var isLateRE = /(@?)(.+)is late/i;
-                    var createPartyRE = /create party(.+)/i
+                    var createPartyRE = /create party(.+)/i;
 
                     if (request.body.text.match(helpRE)) {
-                        response.json({
-                            "response_type": "ephemeral",
-                            "text": "*Here you go, <@" + request.body.user_id + ">. This might help:*",
-
-                            "attachments": [
-                                {
-                                    "title": "Getting Help",
-                                    "text": "`/slotbot help` Shows this help menu.",
-                                    "color": "#e74c3c",
-                                    "mrkdwn_in": ["text"]
-								},
-                                {
-                                    "title": "Creating a Party",
-                                    "text": "`/slotbot create party [slots] [time] [date]` Creates a new party with the specified parameters.",
-                                    "color": "#f39c12",
-                                    "fields": [
-                                        {
-                                            "title": "[slots]",
-                                            "value": "Number of slots in party.",
-                                            "short": true
-										},
-                                        {
-                                            "title": "[time]",
-                                            "value": "Time when party will begin.",
-                                            "short": true
-										},
-                                        {
-                                            "title": "[date]",
-                                            "value": "Date of the party.",
-                                            "short": true
-										},
-									],
-                                    "mrkdwn_in": ["text"]
-								},
-                                {
-                                    "title": "Viewing Parties",
-                                    "text": "`/slotbot show parties` Shows all the parties happening in the near future.\n*Note:* This will only show parties for the current game channel.",
-                                    "color": "#f1c40f",
-                                    "mrkdwn_in": ["text"]
-								},
-                                {
-                                    "title": "Joining Parties",
-                                    "text": "`/slotbot join party [party_number]` This allows you to join a party with the specified number. Party numbers can be seen by using the 'show parties' command.",
-                                    "color": "#2ecc71",
-                                    "fields": [
-                                        {
-                                            "title": "[party_number]",
-                                            "value": "The number of the party you want to join.",
-                                            "short": true
-										}
-									],
-                                    "mrkdwn_in": ["text"]
-								}
-							]
-                        });
-
+                        response.json(helpJSON);
                     } else if (request.body.text.match(isLateRE)) {
                         var match = request.body.text.match(isLateRE);
                         setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
@@ -164,7 +113,6 @@ app.listen(app.get('port'), function () {
 
 // RegEx FUNCTIONS
 function isDev(userID) {
-    var userID = request.body.user_id;
     if (devs[userID]) {
         return true;
     }
@@ -184,9 +132,9 @@ function isDevRequest(request) {
 
 
 // COMMAND FUNCTIONS
-function devCommands(request) {
+function devCommands(messageData) {
     var devRE = /dev(.*)/i;
-    var matches = request.body.text.match(devRE);
+    var matches = messageData.request.body.text.match(devRE);
 
     var clearAllUsersRE = / clear all users/i;
     var toggleDevStatusRE = / toggle dev status/i;
@@ -194,12 +142,12 @@ function devCommands(request) {
     if (matches[1].match(clearAllUsersRE)) {
         users = {};
         writeUsers();
-        setResponse(request, response, "ephemeral", "All user data deleted");
+        setResponse(messageData.request, messageData.response, "ephemeral", "All user data deleted");
     } else if (matches[1].match(toggleDevStatusRE)) {
-        devs[userID] = !devs[userID];
-        setResponse(request, response, "ephemeral", "Dev status set: " + devs[userID]);
+        devs[messageData.userID] = !devs[messageData.userID];
+        setResponse(messageData.request, messageData.response, "ephemeral", "Dev status set: " + devs[messageData.userID]);
     } else {
-        setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
+        setResponse(messageData.request, messageData.response, "ephemeral", "Dev...", JSON.stringify(messageData.request.body));
     }
 }
 
@@ -216,7 +164,7 @@ function userCommands(request) {
 // IO FUNCTIONS
 function readGames() {
     try {
-        gamesFile = fs.lstatSync('games.json');
+        var gamesFile = fs.lstatSync('games.json');
         if (gamesFile.isFile()) {
             games = JSON.parse(fs.readFileSync('games.json', 'utf8'));
         }
@@ -227,7 +175,7 @@ function readGames() {
 
 function readUsers() {
     try {
-        usersFile = fs.lstatSync('users.json');
+        var usersFile = fs.lstatSync('users.json');
         if (usersFile.isFile()) {
             users = JSON.parse(fs.readFileSync('users.json', 'utf8'));
         }
@@ -238,7 +186,7 @@ function readUsers() {
 
 function readHelpJSON() {
     try {
-        helpFile = fs.lstatSync('help.json');
+        var helpFile = fs.lstatSync('help.json');
         if (helpFile.isFile()) {
             helpJSON = JSON.parse(fs.readFileSync('help.json', 'utf8'));
         }
