@@ -5,6 +5,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
 var games, users;
+readGames();
+readUsers();
 
 var devs = {
     "U0AQU2TKQ": true,
@@ -22,8 +24,6 @@ app.set('port', (process.env.PORT || 5000));
 var router = express.Router()
 
 router.post('/', function (request, response) {
-    readGames();
-    readUsers();
     var userID = request.body.user_id;
 
     var devRE = /dev(.*)/i;
@@ -56,12 +56,12 @@ router.post('/', function (request, response) {
 
             var setupRE = /setup/i;
             if (request.body.text.match(setupRE)) {
-                users.userID = gamertag;
+                users[userID] = gamertag;
                 writeUsers();
                 setResponse(request, response, "ephemeral", "\n\n\nYou're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
                 sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
             } else {
-                if (users.userID) {
+                if (users[userID]) {
 
                     var helpRE = /help/i;
                     var isLateRE = /(@?)(.+)is late/i;
