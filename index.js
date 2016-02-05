@@ -1,3 +1,5 @@
+fs = require('fs');
+
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
@@ -17,27 +19,45 @@ router.post('/', function (request, response) {
     readGames();
     readUsers();
 
-    var helpRE = /help/i;
-    var isLateRE = /(@?)(.+)is late/i;
+    var devRE = /dev(.+)/i;
 
-    if (request.body.text.match(helpRE)) {
-        setResponse(request, response, "ephemeral", "Here is teh HALP");
+    // DEV
+    if (request.body.text.match(devRE)) {
+        setResponse(request, response, "ephemeral", "Dev...");
+    }
+    // USER
+    else {
 
-    } else if (request.body.text.match(isLateRE)) {
-        var match = request.body.text.match(isLateRE);
-        setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
-        //REMOVE FROM PARTY
-    } else {
-        setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
+        var userID = request.body.user_id;
+
+        if (users.userID) {
+
+            var helpRE = /help/i;
+            var isLateRE = /(@?)(.+)is late/i;
+
+            if (request.body.text.match(helpRE)) {
+                setResponse(request, response, "ephemeral", "Here is teh HALP");
+
+            } else if (request.body.text.match(isLateRE)) {
+                var match = request.body.text.match(isLateRE);
+                setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
+                //REMOVE FROM PARTY
+            } else {
+                setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
+            }
+        } else {
+            setResponse(request, response, "ephemeral", "It looks like you haven't use SlotBot before. Type */slotbot setup* to get started!");
+        }
+
     }
 });
 
 function readGames() {
-
+    games = JSON.parse(fs.readFileSync('games.json', 'utf8'));
 }
 
 function readUsers() {
-
+    users = JSON.parse(fs.readFileSync('users.json', 'utf8'));
 }
 
 function writeGames() {
