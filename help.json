@@ -15,17 +15,17 @@
                 {
                     "title": "[slots]",
                     "value": "Number of slots in party.",
-                    "short": 1
+                    "short": true
 				},
                 {
                     "title": "[time]",
                     "value": "Time when party will begin.",
-                    "short": 1
+                    "short": true
 				},
                 {
                     "title": "[date]",
                     "value": "Date of the party.",
-                    "short": 1
+                    "short": true
 				}
 			],
             "mrkdwn_in": ["text"]
