@@ -75,7 +75,7 @@ router.post('/', function (request, response) {
 
 					if (request.body.text.match(helpRE)) {
 						var helpMessage = helpJSON;
-						helpMessage.text = "text": "*Here you go, <@" + request.body.user_id + ">. This might help:*",
+						helpMessage.text = "*Here you go, <@" + request.body.user_id + ">. This might help:*",
 							response.json(helpMessage);
 					} else if (request.body.text.match(isLateRE)) {
 						var match = request.body.text.match(isLateRE);
