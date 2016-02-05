@@ -23,7 +23,7 @@ router.post('/', function (request, response) {
 
     // DEV
     if (request.body.text.match(devRE)) {
-        setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body.text));
+        setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
         var matches = request.body.text.match(devRE);
 
         var clearAllUsers = / clear all users/i;
