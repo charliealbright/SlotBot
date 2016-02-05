@@ -2,3 +2,5 @@ node_modules
 .env
 Dockerfile
 docker-compose.yml
+users.json
+games.json
