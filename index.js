@@ -24,6 +24,7 @@ router.post('/', function (request, response) {
     // DEV
     if (request.body.text.match(devRE)) {
         setResponse(request, response, "ephemeral", "Dev...");
+
     }
     // USER
     else {
@@ -125,6 +126,7 @@ function sendMessage(message, destination) {
         hostname: destination,
         port: 80,
         method: 'POST',
+        path: '',
         headers: {
             'Content-Type': 'application/json',
             'Content-Length': postData.length
@@ -138,8 +140,8 @@ function sendMessage(message, destination) {
             console.log(`BODY: ${chunk}`);
         });
         res.on('end', () => {
-            console.log('No more data in response.')
-        })
+            console.log('No more data in response.');
+        });
     });
 
     req.on('error', (e) => {
