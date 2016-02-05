@@ -35,7 +35,7 @@ router.post('/', function (request, response) {
             users.userID = gamertag;
             writeUsers();
             setResponse(request, response, "ephemeral", "You're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
-            setResponse(request, response, "in_channel", gamertag + "has been added to SlotBot! :bowtie:");
+            sendMessage(gamertag + "has been added to SlotBot! :bowtie:", request.body.response_url);
         } else {
             if (users.userID) {
 
@@ -112,6 +112,43 @@ function setResponse(request, response, type, text, attachmentText) {
                 }
             ]
     });
+}
+
+function sendMessage(message, destination) {
+
+    var postData = querystring.stringify({
+        "response_type": "in_channel",
+        "text": message
+    });
+
+    var options = {
+        hostname: destination,
+        port: 80,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': postData.length
+        }
+    };
+
+
+    var req = http.request(options, (res) => {
+        res.setEncoding('utf8');
+        res.on('data', (chunk) => {
+            console.log(`BODY: ${chunk}`);
+        });
+        res.on('end', () => {
+            console.log('No more data in response.')
+        })
+    });
+
+    req.on('error', (e) => {
+        //        console.log(`problem with request: ${e.message}`);
+    });
+
+    // write data to request body
+    req.write(postData);
+    req.end();
 }
 
 app.use('/api', router);
