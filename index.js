@@ -23,7 +23,7 @@ router.post('/', function (request, response) {
 
     // DEV
     if (request.body.text.match(devRE)) {
-        setResponse(request, response, "ephemeral", "Dev...");
+        setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body.text));
         var matches = request.body.text.match(devRE);
 
         var clearAllUsers = / clear all users/i;
@@ -123,7 +123,7 @@ function setResponse(request, response, type, text, attachmentText) {
 
 function sendMessage(message, destination) {
 
-    var postData = querystring.stringify({
+    var postData = JSON.stringify({
         "response_type": "in_channel",
         "text": message
     });
@@ -140,17 +140,17 @@ function sendMessage(message, destination) {
     };
 
 
-    var req = http.request(options, function(res) {
+    var req = http.request(options, function (res) {
         res.setEncoding('utf8');
-        res.on('data', function(chunk) {
+        res.on('data', function (chunk) {
             console.log('BODY: ${chunk}');
         });
-        res.on('end', function() {
+        res.on('end', function () {
             console.log('No more data in response.');
         });
     });
 
-    req.on('error', function(e) {
+    req.on('error', function (e) {
         //        console.log(`problem with request: ${e.message}`);
     });
 
@@ -161,6 +161,6 @@ function sendMessage(message, destination) {
 
 app.use('/api', router);
 
-app.listen(app.get('port'), function() {
+app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
