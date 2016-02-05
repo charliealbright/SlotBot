@@ -129,25 +129,15 @@ function sendMessage(message, destination) {
         "text": message
     });
 
-    var options = {
-        hostname: destination,
-		port: 80,
-		path: '',
-        method: 'POST',
+    requests.post({
         headers: {
-            'Content-Type': 'application/json',
-        }
-    };
-
-	requests.post({
-  		headers: {
-			'content-type' : 'application/json'
-		},
-  		url: destination,
-  		body: postData
-	}, function(error, response, body){
-  		console.log(body);
-	});
+            'content-type': 'application/json'
+        },
+        url: destination,
+        body: postData
+    }, function (error, response, body) {
+        console.log(body);
+    });
 }
 
 app.use('/api', router);
