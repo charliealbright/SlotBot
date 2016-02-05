@@ -52,8 +52,9 @@ router.post('/', function (request, response) {
     }
     // USER
     else {
-        // If not a dev...
-        if (!devs[userID]) {
+        // If not a dev, prevent user from gaining access during beta
+        // REMOVE AT END OF BETA
+        if (!isDev(userID)) {
             setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
         } else {
             var gamertag = request.body.user_name;
