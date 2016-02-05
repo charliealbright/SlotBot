@@ -146,7 +146,7 @@ function readHelpJSON() {
 		}
 	} catch (e) {
 		helpJSON = {
-			"text": "The server encountered an unexpected error. Please message one of the devs."
+			"text": "The server encountered an unexpected error. Please message one of the devs. (" + e + ")";
 		};
 	}
 }
