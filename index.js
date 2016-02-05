@@ -130,12 +130,9 @@ function sendMessage(message, destination) {
 
     var options = {
         hostname: destination,
-        port: 80,
         method: 'POST',
-        path: '',
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(postData)
         }
     };
 
