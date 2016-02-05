@@ -81,7 +81,7 @@ router.post('/', function (request, response) {
                             \n\
                             \n3) Join a Party: `/slotbot join party [party #]`\
                             \n\t_party #_: this can be obtained through the 'show parties' command\
-                            \n\t
+                            \n\t"
                         });
 
                     } else if (request.body.text.match(isLateRE)) {
