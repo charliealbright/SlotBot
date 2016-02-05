@@ -136,12 +136,12 @@ function sendMessage(message, destination) {
         path: '',
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': postData.length
+            'Content-Length': Buffer.byteLength(postData)
         }
     };
 
 
-    var req = http.request(options, function (res) => {
+    var req = http.request(options, function(res) {
         res.setEncoding('utf8');
         res.on('data', (chunk) => {
             console.log(`BODY: ${chunk}`);
