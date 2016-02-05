@@ -79,7 +79,7 @@ router.post('/', function (request, response) {
                                     "title": "Getting Help",
                                     "text": "`/slotbot help` Shows this help menu.",
                                     "color": "#e74c3c",
-									"mrkdwn_in": ["text"]
+                                    "mrkdwn_in": ["text"]
 								},
                                 {
                                     "title": "Creating a Party",
@@ -102,26 +102,26 @@ router.post('/', function (request, response) {
                                             "short": true
 										},
 									],
-									"mrkdwn_in": ["text"]
+                                    "mrkdwn_in": ["text"]
 								},
-								{
-									"title": "Viewing Parties",
-									"text": "`/slotbot show parties` Shows all the parties happening in the near future.\n*Note:* This will only show parties for the current game channel.",
-									"color": "#f1c40f",
-									"mrkdwn_in": ["text"]
+                                {
+                                    "title": "Viewing Parties",
+                                    "text": "`/slotbot show parties` Shows all the parties happening in the near future.\n*Note:* This will only show parties for the current game channel.",
+                                    "color": "#f1c40f",
+                                    "mrkdwn_in": ["text"]
 								},
-								{
-									"title": "Joining Parties",
-									"text": "`/slotbot join party [party_number]` This allows you to join a party with the specified number. Party numbers can be seen by using the 'show parties' command.",
-									"color": "#2ecc71",
-									"fields": [
-										{
-											"title": "[party_number]",
-											"value": "The number of the party you want to join.",
-											"short": true
+                                {
+                                    "title": "Joining Parties",
+                                    "text": "`/slotbot join party [party_number]` This allows you to join a party with the specified number. Party numbers can be seen by using the 'show parties' command.",
+                                    "color": "#2ecc71",
+                                    "fields": [
+                                        {
+                                            "title": "[party_number]",
+                                            "value": "The number of the party you want to join.",
+                                            "short": true
 										}
 									],
-									"mrkdwn_in": ["text"]
+                                    "mrkdwn_in": ["text"]
 								}
 							]
 
@@ -165,6 +165,16 @@ router.post('/', function (request, response) {
     }
 });
 
+app.use('/api', router);
+
+app.listen(app.get('port'), function () {
+    console.log('Node app is running on port', app.get('port'));
+});
+
+
+
+
+// IO FUNCTIONS
 function readGames() {
     try {
         gamesFile = fs.lstatSync('games.json');
@@ -200,6 +210,13 @@ function writeUsers() {
     });
 }
 
+
+
+
+
+
+
+// COMMUNICATION FUNCTIONS
 function setResponse(request, response, type, text, attachmentText) {
     if (!type) {
         type = "ephemeral";
@@ -233,9 +250,3 @@ function sendMessage(message, destination) {
         console.log(body);
     });
 }
-
-app.use('/api', router);
-
-app.listen(app.get('port'), function () {
-    console.log('Node app is running on port', app.get('port'));
-});
