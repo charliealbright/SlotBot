@@ -29,24 +29,27 @@ router.post('/', function (request, response) {
     var devRE = /dev(.*)/i;
     // DEV
     if (request.body.text.match(devRE)) {
-        setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
+
         var matches = request.body.text.match(devRE);
 
         var clearAllUsersRE = / clear all users/i;
+        var toggleDevStatusRE = / toggle dev status/i;
+
         if (matches[1].match(clearAllUsersRE)) {
             users = {};
             writeUsers();
-        }
-
-        var toggleDevStatusRE = / toggle dev status/i;
-        if (matches[1].match(toggleDevStatusRE)) {
+            setResponse(request, response, "ephemeral", "All user data deleted");
+        } else if (matches[1].match(toggleDevStatusRE)) {
             devs[userID] = !devs[userID];
+            setResponse(request, response, "ephemeral", "Dev status set: " + devs[userID]);
+        } else {
+            setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
         }
     }
     // USER
     else {
         // If not a dev...
-        if (devs[userID]) {
+        if (!devs[userID]) {
             setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
         } else {
             var gamertag = request.body.user_name;
