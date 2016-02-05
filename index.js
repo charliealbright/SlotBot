@@ -70,8 +70,16 @@ router.post('/', function (request, response) {
                     if (request.body.text.match(helpRE)) {
                         response.json({
                             "response_type": "ephemeral",
-                            "text": "Here you go, <@" + request.body.user_id + ">. This might help:\
-                            \n\
+                            "text": "*Here you go, <@" + request.body.user_id + ">. This might help:*",
+							"attachments": [
+								{
+									"pretext": "Getting Help: `/slotbot help`",
+									""
+								}
+							]
+							
+							
+                            "\n\
                             \n1) Create a new party: `/slotbot create party [# slots] [time] [date]`\
                             \n\t_# slots_: number of slots in number format\
                             \n\t_time_: time when the party will begin as a specific time (5:00PM) or a relative time ('1 hour from now')\
