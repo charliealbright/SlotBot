@@ -31,7 +31,6 @@ var router = express.Router();
 
 // COMMAND HANDLER
 router.post('/', function (request, response) {
-<<<<<<< HEAD
 	// Immediately grab userID for all future checks
 	var userID = request.body.user_id;
 	var messageData = {
@@ -53,8 +52,9 @@ router.post('/', function (request, response) {
 	}
 	// USER
 	else {
-		// If not a dev...
-		if (!devs[userID]) {
+		// If not a dev, prevent user from gaining access during beta
+		// REMOVE AT END OF BETA
+		if (!isDev(userID)) {
 			setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
 		} else {
 			var gamertag = request.body.user_name;
@@ -99,76 +99,6 @@ router.post('/', function (request, response) {
 			}
 		}
 	}
-=======
-    // Immediately grab userID for all future checks
-    var userID = request.body.user_id;
-    var messageData = {
-        "userID": userID,
-        "request": request,
-        "response": response
-    };
-
-    // DEV COMMANDS
-    if (isDevRequest(request)) {
-        // Check if user is dev
-        if (isDev(userID)) {
-            // User is dev
-            devCommands(messageData);
-        } else {
-            // User is not dev
-            setResponse(request, response, "ephemeral", "*YOU ARE NOT AN AUTHORIZED DEV. THIS ACTION WILL BE LOGGED AND YOUR ACCOUNT WILL BE SUSPENDED AFTER FUTURE ATTEMPTS*.");
-        }
-    }
-    // USER
-    else {
-        // If not a dev, prevent user from gaining access during beta
-        // REMOVE AT END OF BETA
-        if (!isDev(userID)) {
-            setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
-        } else {
-            var gamertag = request.body.user_name;
-
-            var setupRE = /setup/i;
-            if (request.body.text.match(setupRE)) {
-                users[userID] = gamertag;
-                writeUsers();
-                setResponse(request, response, "ephemeral", "\n\n\nYou're good to go! Type `/slotbot help` to learn how to use me :wink:");
-                sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
-            } else {
-                if (users[userID]) {
-
-                    // RegEx Checks
-                    var helpRE = /help/i;
-                    var isLateRE = /(@?)(.+)is late/i;
-                    var createPartyRE = /create party(.+)/i;
-
-                    if (request.body.text.match(helpRE)) {
-                        response.json(helpJSON);
-                    } else if (request.body.text.match(isLateRE)) {
-                        var match = request.body.text.match(isLateRE);
-                        setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
-                        //REMOVE FROM PARTY
-                    } else if (request.body.text.match(createPartyRE)) {
-                        var match = request.body.text.match(createPartyRE);
-                        var partyID = 7;
-                        var time = "5:00PM";
-                        var date = "Today";
-
-                        setResponse(request, response);
-                        sendMessage("@" + gamertag + " has created a new party! (" + time + " - " + date + ")\n To join, type `/slotbot join party " + partyID + "`", request.body.response_url);
-                    } else {
-                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters. Try using `/slotbot help`! :kissing_heart:");
-                    }
-
-                    // Create party "<!channel> <@" + request.body.user_id + "> has created a new party!"
-
-                } else {
-                    setResponse(request, response, "ephemeral", "It looks like you haven't used SlotBot before. Type */slotbot setup* to get started!");
-                }
-            }
-        }
-    }
->>>>>>> 661af7ad8a6d467c982c86eaa2594607e38dcfec
 });
 
 app.use('/api', router);
