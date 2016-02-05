@@ -58,7 +58,7 @@ router.post('/', function (request, response) {
             if (request.body.text.match(setupRE)) {
                 users.userID = gamertag;
                 writeUsers();
-                setResponse(request, response, "ephemeral", "You're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
+                setResponse(request, response, "ephemeral", "\n\n\nYou're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
                 sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
             } else {
                 if (users.userID) {
@@ -80,7 +80,7 @@ router.post('/', function (request, response) {
                         setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
                     }
                 } else {
-                    setResponse(request, response, "ephemeral", "It looks like you haven't use SlotBot before. Type */slotbot setup* to get started!");
+                    setResponse(request, response, "ephemeral", "It looks like you haven't used SlotBot before. Type */slotbot setup* to get started!");
                 }
             }
         }
