@@ -10,7 +10,7 @@
     "ejs": "2.3.3",
     "express": "4.13.3",
 	"body-parser": "~1.0.1",
-	"requests": "~2.69.0"
+	"request": "~2.69.0"
   },
   "engines": {
     "node": "0.12.7"
