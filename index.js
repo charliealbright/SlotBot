@@ -64,8 +64,10 @@ router.post('/', function (request, response) {
             } else {
                 if (users[userID]) {
 
+                    // RegEx Checks
                     var helpRE = /help/i;
                     var isLateRE = /(@?)(.+)is late/i;
+                    var createPartyRE = /create party(.+)/i
 
                     if (request.body.text.match(helpRE)) {
                         response.json({
@@ -88,8 +90,12 @@ router.post('/', function (request, response) {
                         var match = request.body.text.match(isLateRE);
                         setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
                         //REMOVE FROM PARTY
+                    } else if (request.body.text.match(createPartyRE)) {
+                        var match = request.body.text.match(createPartyRE);
+                        partyID = 7;
+                        setResponse(request, response, "@" + gamertag + " has created a new party! To join, type `/slotbot join party " + partyID + "`");
                     } else {
-                        setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
+                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include parameters. Try using `/slotbot help` for help! :kissing_heart:", request.body.text);
                     }
 
                     // Create party "<!channel> <@" + request.body.user_id + "> has created a new party!"
