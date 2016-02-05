@@ -27,30 +27,27 @@ app.use(bodyParser.json());
 
 app.set('port', (process.env.PORT || 5000));
 
-var router = express.Router()
+var router = express.Router();
 
 // COMMAND HANDLER
 router.post('/', function (request, response) {
+	// Immediately grab userID for all future checks
 	var userID = request.body.user_id;
+	var messageData = {
+		"userID": userID,
+		"request": request,
+		"response": response
+	};
 
-	var devRE = /dev(.*)/i;
-	// DEV
-	if (request.body.text.match(devRE)) {
-
-		var matches = request.body.text.match(devRE);
-
-		var clearAllUsersRE = / clear all users/i;
-		var toggleDevStatusRE = / toggle dev status/i;
-
-		if (matches[1].match(clearAllUsersRE)) {
-			users = {};
-			writeUsers();
-			setResponse(request, response, "ephemeral", "All user data deleted");
-		} else if (matches[1].match(toggleDevStatusRE)) {
-			devs[userID] = !devs[userID];
-			setResponse(request, response, "ephemeral", "Dev status set: " + devs[userID]);
+	// DEV COMMANDS
+	if (isDevRequest(request)) {
+		// Check if user is dev
+		if (isDev(userID)) {
+			// User is dev
+			devCommands(messageData);
 		} else {
-			setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
+			// User is not dev
+			setResponse(request, response, "ephemeral", "*YOU ARE NOT AN AUTHORIZED DEV. THIS ACTION WILL BE LOGGED AND YOUR ACCOUNT WILL BE SUSPENDED AFTER FUTURE ATTEMPTS*.");
 		}
 	}
 	// USER
@@ -73,11 +70,10 @@ router.post('/', function (request, response) {
 					// RegEx Checks
 					var helpRE = /help/i;
 					var isLateRE = /(@?)(.+)is late/i;
-					var createPartyRE = /create party(.+)/i
+					var createPartyRE = /create party(.+)/i;
 
 					if (request.body.text.match(helpRE)) {
 						response.json(helpJSON);
-
 					} else if (request.body.text.match(isLateRE)) {
 						var match = request.body.text.match(isLateRE);
 						setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
@@ -115,10 +111,60 @@ app.listen(app.get('port'), function () {
 
 
 
+// RegEx FUNCTIONS
+function isDev(userID) {
+	if (devs[userID]) {
+		return true;
+	}
+	return false;
+}
+
+function isDevRequest(request) {
+	var devRE = /dev(.*)/i;
+	if (request.body.text.match(devRE)) {
+		return true;
+	}
+	return false;
+}
+
+
+
+
+
+// COMMAND FUNCTIONS
+function devCommands(messageData) {
+	var devRE = /dev(.*)/i;
+	var matches = messageData.request.body.text.match(devRE);
+
+	var clearAllUsersRE = / clear all users/i;
+	var toggleDevStatusRE = / toggle dev status/i;
+
+	if (matches[1].match(clearAllUsersRE)) {
+		users = {};
+		writeUsers();
+		setResponse(messageData.request, messageData.response, "ephemeral", "All user data deleted");
+	} else if (matches[1].match(toggleDevStatusRE)) {
+		devs[messageData.userID] = !devs[messageData.userID];
+		setResponse(messageData.request, messageData.response, "ephemeral", "Dev status set: " + devs[messageData.userID]);
+	} else {
+		setResponse(messageData.request, messageData.response, "ephemeral", "Dev...", JSON.stringify(messageData.request.body));
+	}
+}
+
+function userCommands(request) {
+
+}
+
+
+
+
+
+
+
 // IO FUNCTIONS
 function readGames() {
 	try {
-		gamesFile = fs.lstatSync('games.json');
+		var gamesFile = fs.lstatSync('games.json');
 		if (gamesFile.isFile()) {
 			games = JSON.parse(fs.readFileSync('games.json', 'utf8'));
 		}
@@ -129,7 +175,7 @@ function readGames() {
 
 function readUsers() {
 	try {
-		usersFile = fs.lstatSync('users.json');
+		var usersFile = fs.lstatSync('users.json');
 		if (usersFile.isFile()) {
 			users = JSON.parse(fs.readFileSync('users.json', 'utf8'));
 		}
@@ -140,7 +186,7 @@ function readUsers() {
 
 function readHelpJSON() {
 	try {
-		helpFile = fs.lstatSync('help.json');
+		var helpFile = fs.lstatSync('help.json');
 		if (helpFile.isFile()) {
 			helpJSON = JSON.parse(fs.readFileSync('help.json', 'utf8'));
 		}
