@@ -16,8 +16,8 @@ app.set('port', (process.env.PORT || 5000));
 var router = express.Router()
 
 router.post('/', function (request, response) {
-    readGames();
-    readUsers();
+//    readGames();
+//    readUsers();
 
     var devRE = /dev(.+)/i;
 
@@ -36,7 +36,10 @@ router.post('/', function (request, response) {
             var isLateRE = /(@?)(.+)is late/i;
 
             if (request.body.text.match(helpRE)) {
-                setResponse(request, response, "ephemeral", "Here is teh HALP");
+                response.json({
+					"response_type": "ephemeral",
+					"text": "Here you go, <@" + request.body.user_id + ">. This might help:"
+				});
 
             } else if (request.body.text.match(isLateRE)) {
                 var match = request.body.text.match(isLateRE);
