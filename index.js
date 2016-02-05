@@ -113,7 +113,7 @@ router.post('/', function (request, response) {
 								{
 									"title": "Joining Parties",
 									"text": "`/slotbot join party [party_number]` This allows you to join a party with the specified number. Party numbers can be seen by using the 'show parties' command.",
-									"color": "#f1c40f",
+									"color": "#2ecc71",
 									"fields": [
 										{
 											"title": "[party_number]",
