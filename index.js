@@ -43,7 +43,7 @@ router.post('/', function (request, response) {
             users.userID = gamertag;
             writeUsers();
             setResponse(request, response, "ephemeral", "You're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
-            sendMessage(gamertag + "has been added to SlotBot! :bowtie:", request.body.response_url);
+            sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
         } else {
             if (users.userID) {
 
