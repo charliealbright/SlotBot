@@ -75,10 +75,32 @@ router.post('/', function (request, response) {
                             "text": "*Here you go, <@" + request.body.user_id + ">. This might help:*",
 							"attachments": [
 								{
-									"pretext": "Getting Help:",
-									"title": "`/slotbot help`",
-									"text": "Shows this help menu.",
+									"title": "Getting Help",
+									"text": "`/slotbot help` Shows this help menu.",
 									"color": "#7CD197"
+								},
+								{
+									"title": "Creating a Party",
+									"text": "`/slotbot create party [slots] [time] [date]` Creates a new party with the specified parameters.",
+									"color": "#F35A00",
+									"fields": [
+										{
+											"title": "[slots]",
+											"value": "Number of slots in party.",
+											"short": true
+										},
+										{
+											"title": "[time]",
+											"value": "Time when party will begin.",
+											"short": true
+										},
+										{
+											"title": "[date]",
+											"value": "Date of the party.",
+											"short": true
+										},
+									]
+									
 								}
 							]
 							
