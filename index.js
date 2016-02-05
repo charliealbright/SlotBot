@@ -78,7 +78,8 @@ router.post('/', function (request, response) {
                                 {
                                     "title": "Getting Help",
                                     "text": "`/slotbot help` Shows this help menu.",
-                                    "color": "#7CD197"
+                                    "color": "#7CD197",
+									"mrkdwn_in": ["text"]
 								},
                                 {
                                     "title": "Creating a Party",
@@ -100,7 +101,8 @@ router.post('/', function (request, response) {
                                             "value": "Date of the party.",
                                             "short": true
 										},
-									]
+									],
+									"mrkdwn_in": ["text"]
 								}
 							]
 
