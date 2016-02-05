@@ -7,8 +7,8 @@ var bodyParser = require("body-parser");
 var games, users;
 
 var devs = {
-    "U0AQU2TKQ": 1,
-    "U0AQSDFHS": 1
+    "U0AQU2TKQ": true,
+    "U0AQSDFHS": true
 };
 
 app.use(bodyParser.urlencoded({
@@ -40,13 +40,13 @@ router.post('/', function (request, response) {
 
         var toggleDevStatusRE = / toggle dev status/i;
         if (matches[1].match(toggleDevStatusRE)) {
-            devs.userID = !devs.userID;
+            devs[userID] = !devs[userID];
         }
     }
     // USER
     else {
         // If not a dev...
-        if (!devs.userID) {
+        if (devs[userID]) {
             setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
         } else {
             var gamertag = request.body.user_name;
