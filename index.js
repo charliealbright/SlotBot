@@ -78,6 +78,7 @@ router.post('/', function (request, response) {
                             \n\t_date_: date of the part which can be a specific date (4/20/16) or a relative date ('tomorrow' or 'saturday')\
                             \n\
                             \n2) Show Parties: `/slotbot show parties`\
+                            \n\
                             \n3) Join a Party: `/slotbot join party [party #]`\
                             \n\t_party #_: this can be obtained through the 'show parties' command\
                             \n\t
