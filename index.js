@@ -64,8 +64,10 @@ router.post('/', function (request, response) {
             } else {
                 if (users[userID]) {
 
+                    // RegEx Checks
                     var helpRE = /help/i;
                     var isLateRE = /(@?)(.+)is late/i;
+                    var createPartyRE = /create party(.+)/i
 
                     if (request.body.text.match(helpRE)) {
                         response.json({
@@ -86,17 +88,22 @@ router.post('/', function (request, response) {
                             \n\t_date_: date of the part which can be a specific date (4/20/16) or a relative date ('tomorrow' or 'saturday')\
                             \n\
                             \n2) Show Parties: `/slotbot show parties`\
+                            \n\
                             \n3) Join a Party: `/slotbot join party [party #]`\
                             \n\t_party #_: this can be obtained through the 'show parties' command\
-                            \n\t
+                            \n\t"
                         });
 
                     } else if (request.body.text.match(isLateRE)) {
                         var match = request.body.text.match(isLateRE);
                         setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
                         //REMOVE FROM PARTY
+                    } else if (request.body.text.match(createPartyRE)) {
+                        var match = request.body.text.match(createPartyRE);
+                        partyID = 7;
+                        setResponse(request, response, "@" + gamertag + " has created a new party! To join, type `/slotbot join party " + partyID + "`");
                     } else {
-                        setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
+                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include parameters. Try using `/slotbot help` for help! :kissing_heart:", request.body.text);
                     }
 
                     // Create party "<!channel> <@" + request.body.user_id + "> has created a new party!"
