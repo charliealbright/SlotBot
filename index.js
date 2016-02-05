@@ -10,7 +10,8 @@ readUsers();
 
 var devs = {
     "U0AQU2TKQ": true,
-    "U0AQSDFHS": true
+    "U0AQSDFHS": true,
+    "U0AQWEX0D ": true
 };
 
 app.use(bodyParser.urlencoded({
