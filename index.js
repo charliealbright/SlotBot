@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
+var games, users;
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -13,6 +14,8 @@ app.set('port', (process.env.PORT || 5000));
 var router = express.Router()
 
 router.post('/', function (request, response) {
+    readGames();
+    readUsers();
 
     var helpRE = /help/i;
     var isLateRE = /(@?)(.+)is late/i;
@@ -29,6 +32,25 @@ router.post('/', function (request, response) {
     }
 });
 
+function readGames() {
+
+}
+
+function readUsers() {
+
+}
+
+function writeGames() {
+    fs.writeFile('games.json', JSON.stringify(games), function (err) {
+        if (err) return console.log(err);
+    });
+}
+
+function writeUsers() {
+    fs.writeFile('users.json', JSON.stringify(users), function (err) {
+        if (err) return console.log(err);
+    });
+}
 
 function setResponse(request, response, type, text, attachmentText) {
     if (!type) {
