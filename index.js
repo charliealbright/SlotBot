@@ -93,7 +93,7 @@ router.post('/', function (request, response) {
                     } else if (request.body.text.match(createPartyRE)) {
                         var match = request.body.text.match(createPartyRE);
                         partyID = 7;
-                        setResponse(request, response, "@" + gamertag + " has created a new party! To join, type `/slotbot join party " + partyID + "`");
+                        setResponse(request, response, "in_channel", "New party created! To join, type `/slotbot join party " + partyID + "`");
                     } else {
                         setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters. Try using `/slotbot help`! :kissing_heart:");
                     }
