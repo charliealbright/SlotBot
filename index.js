@@ -16,8 +16,9 @@ app.set('port', (process.env.PORT || 5000));
 var router = express.Router()
 
 router.post('/', function (request, response) {
-    //    readGames();
-    //    readUsers();
+    readGames();
+    readUsers();
+
 
     var devRE = /dev(.*)/i;
 
