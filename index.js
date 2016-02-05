@@ -124,19 +124,6 @@ router.post('/', function (request, response) {
 									"mrkdwn_in": ["text"]
 								}
 							]
-
-
-                            //                            "\n\
-                            //                            \n1) Create a new party: `/slotbot create party [# slots] [time] [date]`\
-                            //                            \n\t_# slots_: number of slots in number format\
-                            //                            \n\t_time_: time when the party will begin as a specific time (5:00PM) or a relative time ('1 hour from now')\
-                            //                            \n\t_date_: date of the part which can be a specific date (4/20/16) or a relative date ('tomorrow' or 'saturday')\
-                            //                            \n\
-                            //                            \n2) Show Parties: `/slotbot show parties`\
-                            //                            \n\
-                            //                            \n3) Join a Party: `/slotbot join party [party #]`\
-                            //                            \n\t_party #_: this can be obtained through the 'show parties' command\
-                            //                            \n\t"
                         });
 
                     } else if (request.body.text.match(isLateRE)) {
