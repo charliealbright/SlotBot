@@ -59,7 +59,7 @@ router.post('/', function (request, response) {
             if (request.body.text.match(setupRE)) {
                 users[userID] = gamertag;
                 writeUsers();
-                setResponse(request, response, "ephemeral", "\n\n\nYou're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
+                setResponse(request, response, "ephemeral", "\n\n\nYou're good to go! Type `/slotbot help` to learn how to use me :wink:");
                 sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
             } else {
                 if (users[userID]) {
@@ -70,7 +70,17 @@ router.post('/', function (request, response) {
                     if (request.body.text.match(helpRE)) {
                         response.json({
                             "response_type": "ephemeral",
-                            "text": "Here you go, <@" + request.body.user_id + ">. This might help:\n1) This will be a thing to get help with\n2) This will be another thing to get help with\n3) This thing will probably be something sarcastic"
+                            "text": "Here you go, <@" + request.body.user_id + ">. This might help:\
+                            \n\
+                            \n1) Create a new party: `/slotbot create party [# slots] [time] [date]`\
+                            \n\t_# slots_: number of slots in number format\
+                            \n\t_time_: time when the party will begin as a specific time (5:00PM) or a relative time ('1 hour from now')\
+                            \n\t_date_: date of the part which can be a specific date (4/20/16) or a relative date ('tomorrow' or 'saturday')\
+                            \n\
+                            \n2) Show Parties: `/slotbot show parties`\
+                            \n3) Join a Party: `/slotbot join party [party #]`\
+                            \n\t_party #_: this can be obtained through the 'show parties' command\
+                            \n\t
                         });
 
                     } else if (request.body.text.match(isLateRE)) {
@@ -80,6 +90,9 @@ router.post('/', function (request, response) {
                     } else {
                         setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
                     }
+
+                    // Create party "<!channel> <@" + request.body.user_id + "> has created a new party!"
+
                 } else {
                     setResponse(request, response, "ephemeral", "It looks like you haven't used SlotBot before. Type */slotbot setup* to get started!");
                 }
