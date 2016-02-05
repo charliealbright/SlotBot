@@ -53,11 +53,26 @@ router.post('/', function (request, response) {
 });
 
 function readGames() {
-    games = JSON.parse(fs.readFileSync('games.json', 'utf8'));
+    try {
+        gamesFile = fs.lstatSync('games.json');
+        if (gamesFile.isFile()) {
+            games = JSON.parse(fs.readFileSync('games.json', 'utf8'));
+            console.log('It worked!');
+        }
+    } catch (e) {
+        games = {};
+    }
 }
 
 function readUsers() {
-    users = JSON.parse(fs.readFileSync('users.json', 'utf8'));
+    try {
+        usersFile = fs.lstatSync('users.json');
+        if (usersFile.isFile()) {
+            users = JSON.parse(fs.readFileSync('users.json', 'utf8'));
+        }
+    } catch (e) {
+        users = {};
+    }
 }
 
 function writeGames() {
