@@ -1,4 +1,5 @@
-fs = require('fs');
+var fs = require('fs');
+var request = require('request');
 
 var express = require('express');
 var app = express();
@@ -24,7 +25,13 @@ router.post('/', function (request, response) {
     // DEV
     if (request.body.text.match(devRE)) {
         setResponse(request, response, "ephemeral", "Dev...");
+        var matches = request.body.text.match(devRE);
 
+        var clearAllUsers = / clear all users/i;
+        if (matches[1].match(clearAllUsers)) {
+            users = {};
+            writeUsers();
+        }
     }
     // USER
     else {
@@ -134,7 +141,7 @@ function sendMessage(message, destination) {
     };
 
 
-    var req = http.request(options, (res) => {
+    var req = http.request(options, function (res) => {
         res.setEncoding('utf8');
         res.on('data', (chunk) => {
             console.log(`BODY: ${chunk}`);
