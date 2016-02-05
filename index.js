@@ -16,10 +16,10 @@ app.set('port', (process.env.PORT || 5000));
 var router = express.Router()
 
 router.post('/', function (request, response) {
-//    readGames();
-//    readUsers();
+    //    readGames();
+    //    readUsers();
 
-    var devRE = /dev(.+)/i;
+    var devRE = /dev(.*)/i;
 
     // DEV
     if (request.body.text.match(devRE)) {
@@ -27,6 +27,8 @@ router.post('/', function (request, response) {
     }
     // USER
     else {
+
+        var setupRE = /setu
 
         var userID = request.body.user_id;
 
@@ -37,9 +39,9 @@ router.post('/', function (request, response) {
 
             if (request.body.text.match(helpRE)) {
                 response.json({
-					"response_type": "ephemeral",
-					"text": "Here you go, <@" + request.body.user_id + ">. This might help:"
-				});
+                    "response_type": "ephemeral",
+                    "text": "Here you go, <@" + request.body.user_id + ">. This might help:"
+                });
 
             } else if (request.body.text.match(isLateRE)) {
                 var match = request.body.text.match(isLateRE);
