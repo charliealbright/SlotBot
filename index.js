@@ -96,6 +96,7 @@ function readGames() {
         }
     } catch (e) {
         games = {};
+        writeGames();
     }
 }
 
@@ -107,6 +108,7 @@ function readUsers() {
         }
     } catch (e) {
         users = {};
+        writeUsers();
     }
 }
 
