@@ -73,27 +73,27 @@ router.post('/', function (request, response) {
                         response.json({
                             "response_type": "ephemeral",
                             "text": "*Here you go, <@" + request.body.user_id + ">. This might help:*",
-							"attachments": [
-								{
-									"pretext": "Getting Help:",
-									"title": "`/slotbot help`",
-									"text": "Shows this help menu.",
-									"color": "#7CD197"
+                            "attachments": [
+                                {
+                                    "pretext": "Getting Help:",
+                                    "title": "`/slotbot help`",
+                                    "text": "Shows this help menu.",
+                                    "color": "#7CD197"
 								}
 							]
-							
-							
-//                            "\n\
-//                            \n1) Create a new party: `/slotbot create party [# slots] [time] [date]`\
-//                            \n\t_# slots_: number of slots in number format\
-//                            \n\t_time_: time when the party will begin as a specific time (5:00PM) or a relative time ('1 hour from now')\
-//                            \n\t_date_: date of the part which can be a specific date (4/20/16) or a relative date ('tomorrow' or 'saturday')\
-//                            \n\
-//                            \n2) Show Parties: `/slotbot show parties`\
-//                            \n\
-//                            \n3) Join a Party: `/slotbot join party [party #]`\
-//                            \n\t_party #_: this can be obtained through the 'show parties' command\
-//                            \n\t"
+
+
+                            //                            "\n\
+                            //                            \n1) Create a new party: `/slotbot create party [# slots] [time] [date]`\
+                            //                            \n\t_# slots_: number of slots in number format\
+                            //                            \n\t_time_: time when the party will begin as a specific time (5:00PM) or a relative time ('1 hour from now')\
+                            //                            \n\t_date_: date of the part which can be a specific date (4/20/16) or a relative date ('tomorrow' or 'saturday')\
+                            //                            \n\
+                            //                            \n2) Show Parties: `/slotbot show parties`\
+                            //                            \n\
+                            //                            \n3) Join a Party: `/slotbot join party [party #]`\
+                            //                            \n\t_party #_: this can be obtained through the 'show parties' command\
+                            //                            \n\t"
                         });
 
                     } else if (request.body.text.match(isLateRE)) {
@@ -102,8 +102,11 @@ router.post('/', function (request, response) {
                         //REMOVE FROM PARTY
                     } else if (request.body.text.match(createPartyRE)) {
                         var match = request.body.text.match(createPartyRE);
-                        partyID = 7;
-                        setResponse(request, response, "in_channel", "New party created! To join, type `/slotbot join party " + partyID + "`");
+                        var partyID = 7;
+                        var time = "5:00PM";
+                        var date = "Today";
+
+                        setResponse(request, response, "in_channel", "@" + gamertag + " has created a new party (" + time + " - " + date ")! To join, type `/slotbot join party " + partyID + "`");
                     } else {
                         setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters. Try using `/slotbot help`! :kissing_heart:");
                     }
