@@ -1,5 +1,4 @@
 var fs = require('fs');
-var request = require('request');
 
 var express = require('express');
 var app = express();
@@ -136,22 +135,22 @@ function sendMessage(message, destination) {
         path: '',
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': postData.length
+            'Content-Length': Buffer.byteLength(postData)
         }
     };
 
 
-    var req = http.request(options, function (res) => {
+    var req = http.request(options, function(res) {
         res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-            console.log(`BODY: ${chunk}`);
+        res.on('data', function(chunk) {
+            console.log('BODY: ${chunk}');
         });
-        res.on('end', () => {
+        res.on('end', function() {
             console.log('No more data in response.');
         });
     });
 
-    req.on('error', (e) => {
+    req.on('error', function(e) {
         //        console.log(`problem with request: ${e.message}`);
     });
 
@@ -162,6 +161,6 @@ function sendMessage(message, destination) {
 
 app.use('/api', router);
 
-app.listen(app.get('port'), function () {
+app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
 });
