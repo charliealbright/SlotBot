@@ -67,7 +67,7 @@ router.post('/', function (request, response) {
                     // RegEx Checks
                     var helpRE = /help/i;
                     var isLateRE = /(@?)(.+)is late/i;
-                    var createPartyRE = / create party(.+)/i
+                    var createPartyRE = /create party(.+)/i
 
                     if (request.body.text.match(helpRE)) {
                         response.json({
