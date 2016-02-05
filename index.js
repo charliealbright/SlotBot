@@ -4,9 +4,17 @@ var requests = require('request');
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
-var games, users;
+
+// GLOBAL VARS
+var games, users, helpJSON;
+
+// INITIALIZATION
+// On boot, read existing data in from file
 readGames();
 readUsers();
+readHelpJSON();
+
+
 
 var devs = {
     "U0AQU2TKQ": true,
@@ -169,7 +177,6 @@ function readGames() {
         gamesFile = fs.lstatSync('games.json');
         if (gamesFile.isFile()) {
             games = JSON.parse(fs.readFileSync('games.json', 'utf8'));
-            console.log('It worked!');
         }
     } catch (e) {
         games = {};
@@ -184,6 +191,19 @@ function readUsers() {
         }
     } catch (e) {
         users = {};
+    }
+}
+
+function readHelpJSON() {
+    try {
+        helpFile = fs.lstatSync('help.json');
+        if (helpFile.isFile()) {
+            helpJSON = JSON.parse(fs.readFileSync('help.json', 'utf8'));
+        }
+    } catch (e) {
+        helpJSON = {
+            "text": "The server encountered an unexpected error. Please message one of the devs."
+        };
     }
 }
 
