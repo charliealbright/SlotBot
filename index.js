@@ -69,7 +69,7 @@ router.post('/', function (request, response) {
                     if (request.body.text.match(helpRE)) {
                         response.json({
                             "response_type": "ephemeral",
-                            "text": "Here you go, <@" + request.body.user_id + ">. This might help:\n1) This will be a thing to get help with\n2) This will be another thing to get help with\3) This thing will probably be something sarcastic"
+                            "text": "Here you go, <@" + request.body.user_id + ">. This might help:\n1) This will be a thing to get help with\n2) This will be another thing to get help with\n3) This thing will probably be something sarcastic"
                         });
 
                     } else if (request.body.text.match(isLateRE)) {
