@@ -32,10 +32,10 @@ router.post('/', function (request, response) {
 
         var setupRE = /setup/i;
         if (request.body.text.match(setupRE)) {
-            users.userID = username;
+            users.userID = gamertag;
             writeUsers();
             setResponse(request, response, "ephemeral", "You're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
-            setResponse(request, response, "in_channel", username + "has been added to SlotBot! :bowtie:");
+            setResponse(request, response, "in_channel", gamertag + "has been added to SlotBot! :bowtie:");
         } else {
             if (users.userID) {
 
