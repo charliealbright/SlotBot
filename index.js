@@ -7,20 +7,17 @@ var bodyParser = require("body-parser");
 
 // GLOBAL VARS
 var games, users, helpJSON;
+var devs = {
+    "U0AQU2TKQ": true,
+    "U0AQSDFHS": true,
+    "U0AQWEX0D": true
+};
 
 // INITIALIZATION
 // On boot, read existing data in from file
 readGames();
 readUsers();
 readHelpJSON();
-
-
-
-var devs = {
-    "U0AQU2TKQ": true,
-    "U0AQSDFHS": true,
-    "U0AQWEX0D": true
-};
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -32,6 +29,7 @@ app.set('port', (process.env.PORT || 5000));
 
 var router = express.Router()
 
+// COMMAND HANDLER
 router.post('/', function (request, response) {
     var userID = request.body.user_id;
 
