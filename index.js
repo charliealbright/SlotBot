@@ -31,26 +31,19 @@ var router = express.Router()
 
 // COMMAND HANDLER
 router.post('/', function (request, response) {
+    // Immediately grab userID for all future checks
     var userID = request.body.user_id;
 
-    var devRE = /dev(.*)/i;
-    // DEV
-    if (request.body.text.match(devRE)) {
 
-        var matches = request.body.text.match(devRE);
-
-        var clearAllUsersRE = / clear all users/i;
-        var toggleDevStatusRE = / toggle dev status/i;
-
-        if (matches[1].match(clearAllUsersRE)) {
-            users = {};
-            writeUsers();
-            setResponse(request, response, "ephemeral", "All user data deleted");
-        } else if (matches[1].match(toggleDevStatusRE)) {
-            devs[userID] = !devs[userID];
-            setResponse(request, response, "ephemeral", "Dev status set: " + devs[userID]);
+    // DEV COMMANDS
+    if (isDevRequest(request)) {
+        // Check if user is dev
+        if (isDev(userID)) {
+            // User is dev
+            devCommands(request);
         } else {
-            setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
+            // User is not dev
+            setResponse(request, response, "ephemeral", "*YOU ARE NOT AN AUTHORIZED DEV. THIS ACTION WILL BE LOGGED AND YOUR ACCOUNT WILL BE SUSPENDED AFTER FUTURE ATTEMPTS*.");
         }
     }
     // USER
@@ -163,6 +156,57 @@ app.use('/api', router);
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
+
+
+
+
+
+
+// RegEx FUNCTIONS
+function isDev(userID) {
+    var userID = request.body.user_id;
+    if (devs[userID]) {
+        return true;
+    }
+    return false;
+}
+
+function isDevRequest(request) {
+    var devRE = /dev(.*)/i;
+    if (request.body.text.match(devRE)) {
+        return true;
+    }
+    return false;
+}
+
+
+
+
+
+// COMMAND FUNCTIONS
+function devCommands(request) {
+    var devRE = /dev(.*)/i;
+    var matches = request.body.text.match(devRE);
+
+    var clearAllUsersRE = / clear all users/i;
+    var toggleDevStatusRE = / toggle dev status/i;
+
+    if (matches[1].match(clearAllUsersRE)) {
+        users = {};
+        writeUsers();
+        setResponse(request, response, "ephemeral", "All user data deleted");
+    } else if (matches[1].match(toggleDevStatusRE)) {
+        devs[userID] = !devs[userID];
+        setResponse(request, response, "ephemeral", "Dev status set: " + devs[userID]);
+    } else {
+        setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
+    }
+}
+
+function userCommands(request) {
+
+}
+
 
 
 
