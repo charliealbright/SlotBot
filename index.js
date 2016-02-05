@@ -19,7 +19,6 @@ router.post('/', function (request, response) {
     readGames();
     readUsers();
 
-
     var devRE = /dev(.*)/i;
 
     // DEV
@@ -28,31 +27,37 @@ router.post('/', function (request, response) {
     }
     // USER
     else {
-
-        var setupRE = /setu
-
         var userID = request.body.user_id;
+        var gamertag = request.body.user_name;
 
-        if (users.userID) {
-
-            var helpRE = /help/i;
-            var isLateRE = /(@?)(.+)is late/i;
-
-            if (request.body.text.match(helpRE)) {
-                response.json({
-                    "response_type": "ephemeral",
-                    "text": "Here you go, <@" + request.body.user_id + ">. This might help:"
-                });
-
-            } else if (request.body.text.match(isLateRE)) {
-                var match = request.body.text.match(isLateRE);
-                setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
-                //REMOVE FROM PARTY
-            } else {
-                setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
-            }
+        var setupRE = /setup/i;
+        if (request.body.text.match(setupRE)) {
+            users.userID = username;
+            writeUsers();
+            setResponse(request, response, "ephemeral", "You're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
+            setResponse(request, response, "in_channel", username + "has been added to SlotBot! :bowtie:");
         } else {
-            setResponse(request, response, "ephemeral", "It looks like you haven't use SlotBot before. Type */slotbot setup* to get started!");
+            if (users.userID) {
+
+                var helpRE = /help/i;
+                var isLateRE = /(@?)(.+)is late/i;
+
+                if (request.body.text.match(helpRE)) {
+                    response.json({
+                        "response_type": "ephemeral",
+                        "text": "Here you go, <@" + request.body.user_id + ">. This might help:"
+                    });
+
+                } else if (request.body.text.match(isLateRE)) {
+                    var match = request.body.text.match(isLateRE);
+                    setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
+                    //REMOVE FROM PARTY
+                } else {
+                    setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
+                }
+            } else {
+                setResponse(request, response, "ephemeral", "It looks like you haven't use SlotBot before. Type */slotbot setup* to get started!");
+            }
         }
 
     }
