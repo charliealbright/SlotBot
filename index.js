@@ -6,6 +6,11 @@ var app = express();
 var bodyParser = require("body-parser");
 var games, users;
 
+var devs = {
+    "U0AQU2TKQ": 1,
+    "U0AQSDFHS": 1
+};
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
@@ -19,55 +24,63 @@ var router = express.Router()
 router.post('/', function (request, response) {
     readGames();
     readUsers();
+    var userID = request.body.user_id;
 
     var devRE = /dev(.*)/i;
-
     // DEV
     if (request.body.text.match(devRE)) {
         setResponse(request, response, "ephemeral", "Dev...", JSON.stringify(request.body));
         var matches = request.body.text.match(devRE);
 
-        var clearAllUsers = / clear all users/i;
-        if (matches[1].match(clearAllUsers)) {
+        var clearAllUsersRE = / clear all users/i;
+        if (matches[1].match(clearAllUsersRE)) {
             users = {};
             writeUsers();
+        }
+
+        var toggleDevStatusRE = / toggle dev status/i;
+        if (matches[1].match(toggleDevStatusRE)) {
+            devs.userID = !devs.userID;
         }
     }
     // USER
     else {
-        var userID = request.body.user_id;
-        var gamertag = request.body.user_name;
-
-        var setupRE = /setup/i;
-        if (request.body.text.match(setupRE)) {
-            users.userID = gamertag;
-            writeUsers();
-            setResponse(request, response, "ephemeral", "You're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
-            sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
+        // If not a dev...
+        if (!devs.userID) {
+            setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
         } else {
-            if (users.userID) {
+            var gamertag = request.body.user_name;
 
-                var helpRE = /help/i;
-                var isLateRE = /(@?)(.+)is late/i;
-
-                if (request.body.text.match(helpRE)) {
-                    response.json({
-                        "response_type": "ephemeral",
-                        "text": "Here you go, <@" + request.body.user_id + ">. This might help:"
-                    });
-
-                } else if (request.body.text.match(isLateRE)) {
-                    var match = request.body.text.match(isLateRE);
-                    setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
-                    //REMOVE FROM PARTY
-                } else {
-                    setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
-                }
+            var setupRE = /setup/i;
+            if (request.body.text.match(setupRE)) {
+                users.userID = gamertag;
+                writeUsers();
+                setResponse(request, response, "ephemeral", "You're good to go! Type _*/slotbot help*_ to learn how to use me :wink:");
+                sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
             } else {
-                setResponse(request, response, "ephemeral", "It looks like you haven't use SlotBot before. Type */slotbot setup* to get started!");
+                if (users.userID) {
+
+                    var helpRE = /help/i;
+                    var isLateRE = /(@?)(.+)is late/i;
+
+                    if (request.body.text.match(helpRE)) {
+                        response.json({
+                            "response_type": "ephemeral",
+                            "text": "Here you go, <@" + request.body.user_id + ">. This might help:"
+                        });
+
+                    } else if (request.body.text.match(isLateRE)) {
+                        var match = request.body.text.match(isLateRE);
+                        setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
+                        //REMOVE FROM PARTY
+                    } else {
+                        setResponse(request, response, "ephemeral", request.body.user_name, request.body.text);
+                    }
+                } else {
+                    setResponse(request, response, "ephemeral", "It looks like you haven't use SlotBot before. Type */slotbot setup* to get started!");
+                }
             }
         }
-
     }
 });
 
