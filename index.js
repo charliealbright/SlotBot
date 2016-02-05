@@ -78,13 +78,13 @@ router.post('/', function (request, response) {
                                 {
                                     "title": "Getting Help",
                                     "text": "`/slotbot help` Shows this help menu.",
-                                    "color": "#7CD197",
+                                    "color": "#e74c3c",
 									"mrkdwn_in": ["text"]
 								},
                                 {
                                     "title": "Creating a Party",
                                     "text": "`/slotbot create party [slots] [time] [date]` Creates a new party with the specified parameters.",
-                                    "color": "#F35A00",
+                                    "color": "#f39c12",
                                     "fields": [
                                         {
                                             "title": "[slots]",
@@ -101,6 +101,25 @@ router.post('/', function (request, response) {
                                             "value": "Date of the party.",
                                             "short": true
 										},
+									],
+									"mrkdwn_in": ["text"]
+								},
+								{
+									"title": "Viewing Parties",
+									"text": "`/slotbot show parties` Shows all the parties happening in the near future.\n*Note:* This will only show parties for the current game channel.",
+									"color": "#f1c40f",
+									"mrkdwn_in": ["text"]
+								},
+								{
+									"title": "Joining Parties",
+									"text": "`/slotbot join party [party_number]` This allows you to join a party with the specified number. Party numbers can be seen by using the 'show parties' command.",
+									"color": "#f1c40f",
+									"fields": [
+										{
+											"title": "[party_number]",
+											"value": "The number of the party you want to join.",
+											"short": true
+										}
 									],
 									"mrkdwn_in": ["text"]
 								}
