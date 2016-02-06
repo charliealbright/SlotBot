@@ -3,6 +3,7 @@ var requests = require('request');
 
 var express = require('express');
 var app = express();
+var mongoose = require('mongoose');
 var bodyParser = require("body-parser");
 
 // GLOBAL VARS
@@ -18,6 +19,7 @@ var devs = {
 readGames();
 readUsers();
 readHelpJSON();
+connectToDB();
 
 app.use(bodyParser.urlencoded({
 	extended: true
@@ -249,5 +251,15 @@ function sendMessage(message, destination) {
 		body: postData
 	}, function (error, response, body) {
 		console.log(body);
+	});
+}
+
+function connectToDB() {
+	mongoose.connect(process.env.MONGOLAB_URI, function (err, res) {
+		if (err) {
+			console.log("ERROR connecting to MongoDB sever (URL = " + process.env.MONGOLAB_URI + ")");
+		} else {
+			console.log("Successfully connected to MongoDB instance.");
+		}
 	});
 }
