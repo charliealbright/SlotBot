@@ -270,7 +270,8 @@ function sendMessage(message, destination) {
 
     var postData = JSON.stringify({
         "response_type": "in_channel",
-        "text": message
+        "text": message,
+        "link_names": 1
     });
 
     requests.post({
