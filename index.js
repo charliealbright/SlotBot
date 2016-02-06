@@ -52,7 +52,7 @@ router.post('/', function (request, response) {
     };
 
     // DEV COMMANDS
-    if (isDevRequest(request)) {
+    if (regexChecker(request, regex.dev)) {
         // Check if user is dev
         if (isDev(userID)) {
             // User is dev
@@ -142,7 +142,7 @@ function isSetup(userID) {
 
 
 // RegEx FUNCTIONS
-function commandChecker(request, commandRE) {
+function regexChecker(request, commandRE) {
     if (request.body.text.match(commandRE)) {
         return true;
     }
