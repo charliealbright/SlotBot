@@ -38,13 +38,13 @@
 			"mrkdwn_in": ["text"]
 		},
 		{
-			"title": "Joining Parties",
-			"text": "`/slotbot join party [party_number]` This allows you to join a party with the specified number. Party numbers can be seen by using the 'show parties' command.",
+			"title": "Joining/Leaving Parties",
+			"text": "`/slotbot (join|leave) party [party_number]` This allows you to join or leave a party with the specified number. Party numbers can be seen by using the 'show parties' command.",
 			"color": "#2ecc71",
 			"fields": [
 				{
 					"title": "[party_number]",
-					"value": "The number of the party you want to join.",
+					"value": "The number of the party you want to join or leave.",
 					"short": true
 				}
 			],
