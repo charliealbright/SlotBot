@@ -4,7 +4,6 @@ var requests = require('request');
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
-var bodyParser = require("body-parser");
 
 // GLOBAL VARS
 var games, users, helpJSON;
