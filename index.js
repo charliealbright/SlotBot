@@ -88,7 +88,7 @@ router.post('/', function (request, response) {
                         response.json(helpJSON);
                     } else if (requestIsOfType(request, commands.late)) {
                         userIsLate(messageData);
-                    } else if (request.body.text.match(createPartyRE)) {
+                    } else if (requestIsOfType(request, commands.create)) {
                         var match = request.body.text.match(createPartyRE);
                         var partyID = 7;
                         var time = "5:00PM";
@@ -144,15 +144,6 @@ function isSetup(userID) {
 // RegEx FUNCTIONS
 function requestIsOfType(request, commandRE) {
     if (request.body.text.match(commandRE)) {
-        return true;
-    }
-    return false;
-}
-
-
-function isCreatePartyRequest(request) {
-    var createPartyRE = /create party(.+)/i;
-    if (request.body.text.match(createPartyRE)) {
         return true;
     }
     return false;
