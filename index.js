@@ -37,7 +37,8 @@ router.post('/', function (request, response) {
     var messageData = {
         "userID": userID,
         "request": request,
-        "response": response
+        "response": response,
+        "gamertag": gamertag
     };
 
     // DEV COMMANDS
