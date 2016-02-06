@@ -63,7 +63,13 @@ router.post('/', function (request, response) {
         } else {
             // USER IS VERIFIED - At this point, the user is entering a non-dev command
             if (isSetupRequest(request)) {
-                setupUser(messageData);
+                if (isSetup(userID)) {
+                    // USER IS ALREADY SETUP AND TRIED AGAIN
+                    setResponse(request, response, "in_channel", "You think this is a mother fucking game? How dare you try to make me do work I've already done... :shit:");
+                } else {
+                    // USER IS NOT SETUP, CREATE THEIR ACCOUNT
+                    setupUser(messageData);
+                }
             } else {
                 if (users[userID]) {
 
