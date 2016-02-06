@@ -81,27 +81,20 @@ router.post('/', function (request, response) {
             } else {
                 if (isSetup(userID)) {
                     // USER IS SETUP AND HAS ENTERED A COMMAND
-
-                    var createPartyRE = /create party(.+)/i;
-
                     if (requestIsOfType(request, commands.help)) {
+                        // HELP COMMAND
                         response.json(helpJSON);
                     } else if (requestIsOfType(request, commands.late)) {
+                        // USER IS LATE COMMAND
                         userIsLate(messageData);
                     } else if (requestIsOfType(request, commands.create)) {
-                        var match = request.body.text.match(createPartyRE);
-                        var partyID = 7;
-                        var time = "5:00PM";
-                        var date = "Today";
-
-                        setResponse(request, response);
-                        sendMessage("@" + gamertag + " has created a new party! (" + time + " - " + date + ")\n To join, type `/slotbot join party " + partyID + "`", request.body.response_url);
+                        // CREATE PARTY COMMAND
+                        createParty(messageData);
                     } else {
-                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters. Try using `/slotbot help`! :kissing_heart:");
+                        // INVALID COMMAND
+                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters.\
+                        Try using `/slotbot help`! :kissing_heart:");
                     }
-
-                    // Create party "<!channel> <@" + request.body.user_id + "> has created a new party!"
-
                 } else {
                     setResponse(request, response, "ephemeral", "It looks like you haven't used SlotBot before. Type */slotbot setup* to get started!");
                 }
@@ -187,8 +180,18 @@ function setupUser(messageData) {
 }
 
 function userIsLate(messageData) {
-    var match = messageData.request.body.text.match(isLateRE);
+    var match = messageData.request.body.text.match(commands.late);
     setResponse(messageData.request, messageData.response, "in_channel", match[2] + " has been removed :cry:");
+}
+
+function createParty(messageData) {
+    var match = messageData.request.body.text.match(commands.create);
+    var partyID = 7;
+    var time = "5:00PM";
+    var date = "Today";
+
+    setResponse(messageData.request, messageData.response);
+    sendMessage("@" + messageData.gamertag + " has created a new party! (" + time + " - " + date + ")\n To join, type `/slotbot join party " + partyID + "`", messageData.request.body.response_url);
 }
 
 
