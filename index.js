@@ -33,10 +33,12 @@ var router = express.Router();
 router.post('/', function (request, response) {
 	// Immediately grab userID for all future checks
 	var userID = request.body.user_id;
+	var gamertag = request.body.user_name;
 	var messageData = {
 		"userID": userID,
 		"request": request,
-		"response": response
+		"response": response,
+		"gamertag": gamertag
 	};
 
 	// DEV COMMANDS
@@ -57,8 +59,6 @@ router.post('/', function (request, response) {
 		if (!isDev(userID)) {
 			setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
 		} else {
-			var gamertag = request.body.user_name;
-
 			var setupRE = /setup/i;
 			if (request.body.text.match(setupRE)) {
 				users[userID] = gamertag;
