@@ -9,6 +9,7 @@
 	"dependencies": {
 		"ejs": "2.3.3",
 		"express": "4.13.3",
+		"body-parser": "~1.0.1",
 		"mongoose": "~3.6.13",
 		"request": "~2.69.0"
 	},
@@ -20,9 +21,9 @@
 		"url": "https://github.com/heroku/node-js-getting-started"
 	},
 	"keywords": [
-		"node",
-		"heroku",
-		"express"
-  	],
+    "node",
+    "heroku",
+    "express"
+  ],
 	"license": "MIT"
 }
