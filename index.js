@@ -255,11 +255,9 @@ function sendMessage(message, destination) {
 }
 
 function connectToDB() {
-	mongoose.connect(process.env.MONGOLAB_URI, function (err, res) {
-		if (err) {
-			console.log("ERROR connecting to MongoDB sever (URL = " + process.env.MONGOLAB_URI + ")");
-		} else {
-			console.log("Successfully connected to MongoDB instance.");
-		}
-	});
+	mongoose.connect(process.env.MONGOLAB_URI);
+
+	var db = mongoose.connection;
+
+	db.on('error', console.error.bind(console, 'connection error:'));
 }
