@@ -54,19 +54,16 @@ router.post('/', function (request, response) {
             setResponse(request, response, "ephemeral", "*YOU ARE NOT AN AUTHORIZED DEV. THIS ACTION WILL BE LOGGED AND YOUR ACCOUNT WILL BE SUSPENDED AFTER FUTURE ATTEMPTS*.");
         }
     }
-    // USER
+    // USER COMMANDS
     else {
         // If not a dev, prevent user from gaining access during beta
         // REMOVE AT END OF BETA
         if (!isDev(userID)) {
             setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
         } else {
-            var setupRE = /setup/i;
-            if (request.body.text.match(setupRE)) {
-                users[userID] = gamertag;
-                writeUsers();
-                setResponse(request, response, "ephemeral", "\n\n\nYou're good to go! Type `/slotbot help` to learn how to use me :wink:");
-                sendMessage(gamertag + " has been added to SlotBot! :bowtie:", request.body.response_url);
+            // USER IS VERIFIED - At this point, the user is entering a non-dev command
+            if (isSetupRequest(request)) {
+                setupUser(messageData);
             } else {
                 if (users[userID]) {
 
@@ -175,10 +172,17 @@ function devCommands(messageData) {
     }
 }
 
-function userCommands(request) {
+function userCommands(messageData) {
 
 }
 
+
+function setupUser(messageData) {
+    users[messageData.userID] = messageData.gamertag;
+    writeUsers();
+    setResponse(messageData.request, messageData.response, "ephemeral", "\n\n\nYou're good to go! Type `/slotbot help` to learn how to use me :wink:");
+    sendMessage(messageData.gamertag + " has been added to SlotBot! :bowtie:", messageData.request.body.response_url);
+}
 
 
 
