@@ -14,6 +14,14 @@ var devs = {
     "U0AQWEX0D": true
 };
 
+var regex = {
+    "dev": /dev(.*)/i,
+    "setup": /setup/i,
+    "help": /help/i,
+    "late": /(@?)(.+)is late/i,
+    "create": /create party(.+)/i
+};
+
 // INITIALIZATION
 // On boot, read existing data in from file
 readGames();
@@ -71,19 +79,15 @@ router.post('/', function (request, response) {
                     setupUser(messageData);
                 }
             } else {
-                if (users[userID]) {
+                if (isSetup(userID)) {
+                    // USER IS SETUP AND HAS ENTERED A COMMAND
 
-                    // RegEx Checks
-                    var helpRE = /help/i;
-                    var isLateRE = /(@?)(.+)is late/i;
                     var createPartyRE = /create party(.+)/i;
 
-                    if (request.body.text.match(helpRE)) {
+                    if (isHelpRequest(request)) {
                         response.json(helpJSON);
-                    } else if (request.body.text.match(isLateRE)) {
-                        var match = request.body.text.match(isLateRE);
-                        setResponse(request, response, "in_channel", match[2] + " has been removed :cry:");
-                        //REMOVE FROM PARTY
+                    } else if (isLateRE(request)) {
+                        userIsLate(messageData);
                     } else if (request.body.text.match(createPartyRE)) {
                         var match = request.body.text.match(createPartyRE);
                         var partyID = 7;
@@ -138,6 +142,13 @@ function isSetup(userID) {
 
 
 // RegEx FUNCTIONS
+function commandChecker(request, commandRE) {
+    if (request.body.text.match(commandRE)) {
+        return true;
+    }
+    return false;
+}
+
 function isDevRequest(request) {
     var devRE = /dev(.*)/i;
     if (request.body.text.match(devRE)) {
@@ -153,6 +164,31 @@ function isSetupRequest(request) {
     }
     return false;
 }
+
+function isHelpRequest(request) {
+    var helpRE = /help/i;
+    if (request.body.text.match(helpRE)) {
+        return true;
+    }
+    return false;
+}
+
+function isLateRequest(request) {
+    var lateRE = /(@?)(.+)is late/i;
+    if (request.body.text.match(lateRE)) {
+        return true;
+    }
+    return false;
+}
+
+function isCreatePartyRequest(request) {
+    var createPartyRE = /create party(.+)/i;
+    if (request.body.text.match(createPartyRE)) {
+        return true;
+    }
+    return false;
+}
+
 
 
 
@@ -188,6 +224,11 @@ function setupUser(messageData) {
     writeUsers();
     setResponse(messageData.request, messageData.response, "ephemeral", "\n\n\nYou're good to go! Type `/slotbot help` to learn how to use me :wink:");
     sendMessage(messageData.gamertag + " has been added to SlotBot! :bowtie:", messageData.request.body.response_url);
+}
+
+function userIsLate(messageData) {
+    var match = messageData.request.body.text.match(isLateRE);
+    setResponse(messageData.request, messageData.response, "in_channel", match[2] + " has been removed :cry:");
 }
 
 
