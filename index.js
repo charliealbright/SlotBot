@@ -84,9 +84,9 @@ router.post('/', function (request, response) {
 
                     var createPartyRE = /create party(.+)/i;
 
-                    if (isHelpRequest(request)) {
+                    if (requestIsOfType(request, commands.help)) {
                         response.json(helpJSON);
-                    } else if (isLateRE(request)) {
+                    } else if (requestIsOfType(request, commands.late)) {
                         userIsLate(messageData);
                     } else if (request.body.text.match(createPartyRE)) {
                         var match = request.body.text.match(createPartyRE);
@@ -149,37 +149,6 @@ function requestIsOfType(request, commandRE) {
     return false;
 }
 
-function isDevRequest(request) {
-    var devRE = /dev(.*)/i;
-    if (request.body.text.match(devRE)) {
-        return true;
-    }
-    return false;
-}
-
-function isSetupRequest(request) {
-    var setupRE = /setup/i;
-    if (request.body.text.match(setupRE)) {
-        return true;
-    }
-    return false;
-}
-
-function isHelpRequest(request) {
-    var helpRE = /help/i;
-    if (request.body.text.match(helpRE)) {
-        return true;
-    }
-    return false;
-}
-
-function isLateRequest(request) {
-    var lateRE = /(@?)(.+)is late/i;
-    if (request.body.text.match(lateRE)) {
-        return true;
-    }
-    return false;
-}
 
 function isCreatePartyRequest(request) {
     var createPartyRE = /create party(.+)/i;
