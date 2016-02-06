@@ -14,7 +14,7 @@ var devs = {
     "U0AQWEX0D": true
 };
 
-var regex = {
+var commands = {
     "dev": /dev(.*)/i,
     "setup": /setup/i,
     "help": /help/i,
@@ -52,7 +52,7 @@ router.post('/', function (request, response) {
     };
 
     // DEV COMMANDS
-    if (requestIsOfType(request, regex.dev)) {
+    if (requestIsOfType(request, commands.dev)) {
         // Check if user is dev
         if (isDev(userID)) {
             // User is dev
@@ -70,7 +70,7 @@ router.post('/', function (request, response) {
             setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
         } else {
             // USER IS VERIFIED - At this point, the user is entering a non-dev command
-            if (requestIsOfType(request, dev.setup)) {
+            if (requestIsOfType(request, commands.setup)) {
                 if (isSetup(userID)) {
                     // USER IS ALREADY SETUP AND TRIED AGAIN
                     setResponse(request, response, "in_channel", "You think this is a mother fucking game? How dare you try to make me do work I've already done... :shit:");
