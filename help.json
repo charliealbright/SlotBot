@@ -1,5 +1,6 @@
 {
 	"response_type": "ephemeral",
+	"test": "*Here you go, this should help!*"
 	"attachments": [
 		{
 			"title": "Getting Help",
