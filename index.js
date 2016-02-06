@@ -92,8 +92,7 @@ router.post('/', function (request, response) {
                         createParty(messageData);
                     } else {
                         // INVALID COMMAND
-                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters.\
-                        Try using `/slotbot help`! :kissing_heart:");
+                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters. Try using `/slotbot help`!: kissing_heart: ");
                     }
                 } else {
                     setResponse(request, response, "ephemeral", "It looks like you haven't used SlotBot before. Type */slotbot setup* to get started!");
@@ -145,12 +144,10 @@ function requestIsOfType(request, commandRE) {
 
 
 
-
-
 // COMMAND FUNCTIONS
+// DEV:
 function devCommands(messageData) {
-    var devRE = /dev(.*)/i;
-    var matches = messageData.request.body.text.match(devRE);
+    var matches = messageData.request.body.text.match(commands.dev);
 
     var clearAllUsersRE = / clear all users/i;
     var toggleDevStatusRE = / toggle dev status/i;
@@ -167,11 +164,7 @@ function devCommands(messageData) {
     }
 }
 
-function userCommands(messageData) {
-
-}
-
-
+//USER:
 function setupUser(messageData) {
     users[messageData.userID] = messageData.gamertag;
     writeUsers();
@@ -181,7 +174,7 @@ function setupUser(messageData) {
 
 function userIsLate(messageData) {
     var match = messageData.request.body.text.match(commands.late);
-    setResponse(messageData.request, messageData.response, "in_channel", match[2] + " has been removed :cry:");
+    setResponse(messageData.request, messageData.response, "in_channel", match[2] + "was late to the party. They have been removed :cry: but their spot has been vacted :sunglasses:");
 }
 
 function createParty(messageData) {
