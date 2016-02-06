@@ -176,7 +176,7 @@ function userIsLate(messageData) {
     var match = messageData.request.body.text.match(commands.late);
     var lateGT = match[2];
     lateGT = lateGT.trim();
-    setResponse(messageData.request, messageData.response, "in_channel", "@" + lateGT + "was late to the party. They have been removed :cry: but their spot has been vacted :sunglasses:");
+    setResponse(messageData.request, messageData.response, "in_channel", "@" + lateGT + " was late to the party. They have been removed :cry: but their spot has been vacted :sunglasses:");
 }
 
 function createParty(messageData) {
