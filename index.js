@@ -14,7 +14,9 @@ var devs = {
 };
 
 var beta = {
-    "U0AQWEX0D": true //FISH
+    "U0AQWEX0D": true, //FISH
+    "U0KRDFW3D": true,
+    "U0AS69R6C": true
 }
 
 // JASON: U0AS69R6C 
