@@ -56,7 +56,7 @@ router.post('/', function (request, response) {
     // DEV COMMANDS
 
     if (requestIsOfType(request, commands.userInfo)) {
-        setResponse(messageData.request, messageData.response, "ephemeral", "User Info:", JSON.stringify(messageData.request.body));
+        setResponse(messageData.request, messageData.response, "in_channel", "User Info:", JSON.stringify(messageData.request.body));
     } else if (requestIsOfType(request, commands.dev)) {
         // Check if user is dev
         if (isDev(userID)) {
