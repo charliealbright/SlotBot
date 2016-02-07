@@ -10,9 +10,12 @@ var bodyParser = require("body-parser");
 var games, users, helpJSON;
 var devs = {
     "U0AQU2TKQ": true,
-    "U0AQSDFHS": true,
-    "U0AQWEX0D": true
+    "U0AQSDFHS": true
 };
+
+var beta = {
+    "U0AQWEX0D": true
+}
 
 var commands = {
     "dev": /dev(.*)/i,
@@ -54,7 +57,6 @@ router.post('/', function (request, response) {
     };
 
     // DEV COMMANDS
-
     if (requestIsOfType(request, commands.userInfo)) {
         setResponse(messageData.request, messageData.response, "in_channel", "User Info:", JSON.stringify(messageData.request.body));
     } else if (requestIsOfType(request, commands.dev)) {
@@ -71,7 +73,7 @@ router.post('/', function (request, response) {
     else {
         // If not a dev, prevent user from gaining access during beta
         // REMOVE AT END OF BETA
-        if (!isDev(userID)) {
+        if (!isBeta(userID) && !isDev(userID)) {
             setResponse(request, response, "in_channel", "I'm sorry, but *SlotBot* is still in beta. As a matter of fact, it's a closed beta and you didn't get an invite. :shit:");
         } else {
             // USER IS VERIFIED - At this point, the user is entering a non-dev command
@@ -121,6 +123,13 @@ app.listen(app.get('port'), function () {
 // USER CHECK FUNCTIONS
 function isDev(userID) {
     if (devs[userID]) {
+        return true;
+    }
+    return false;
+}
+
+function isBeta(userID) {
+    if (beta[userID]) {
         return true;
     }
     return false;
