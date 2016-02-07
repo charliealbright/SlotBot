@@ -14,15 +14,17 @@ var devs = {
 };
 
 var beta = {
-    "U0AQWEX0D": true
+    "U0AQWEX0D": true //FISH
 }
+
+// JASON: U0AS69R6C 
 
 var commands = {
     "dev": /dev(.*)/i,
     "setup": /setup/i,
     "help": /help/i,
     "late": /(@?)(.+)is late/i,
-    "create": /create party(.+)/i,
+    "create": /(create|schedule).*party.*\s([0-9]+)\s.*\s([0-9]+|one|two|three|four|five|six|seven|eight|nine)(am|pm)*\s*(hour|minute)*/i,
     "userInfo": /user info/i
 
 };
@@ -200,6 +202,7 @@ function createParty(messageData) {
     var date = "Today";
 
     setResponse(messageData.request, messageData.response);
+    setResponse(messageData.request, messageData.response, match);
     sendMessage("@" + messageData.gamertag + " has created a new party! (" + time + " - " + date + ")\n To join, type `/slotbot join party " + partyID + "`", messageData.request.body.response_url);
 }
 
