@@ -66,7 +66,7 @@ router.post('/', function (request, response) {
             devCommands(messageData);
         } else {
             // User is not dev
-            setResponse(request, response, "ephemeral", "*YOU ARE NOT AN AUTHORIZED DEV. THIS ACTION WILL BE LOGGED AND YOUR ACCOUNT WILL BE SUSPENDED AFTER FUTURE ATTEMPTS*.");
+            setResponse(request, response, "ephemeral", "*YOU ARE NOT AUTHORIZED TO USE THIS COMMAND. THIS ACTION WILL BE LOGGED AND YOUR ACCOUNT WILL BE SUSPENDED AFTER FUTURE ATTEMPTS*.");
         }
     }
     // USER COMMANDS
@@ -99,7 +99,7 @@ router.post('/', function (request, response) {
                         createParty(messageData);
                     } else {
                         // INVALID COMMAND
-                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters. Try using `/slotbot help`!: kissing_heart: ");
+                        setResponse(request, response, "ephemeral", "It looks like you didn't use a valid command or you forgot to include required parameters. Try using `/slotbot help`! :kissing_heart: ");
                     }
                 } else {
                     setResponse(request, response, "ephemeral", "It looks like you haven't used SlotBot before. Type */slotbot setup* to get started!");
