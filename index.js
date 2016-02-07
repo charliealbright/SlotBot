@@ -201,7 +201,7 @@ function createParty(messageData) {
     var time = "5:00PM";
     var date = "Today";
 
-    setResponse(messageData.request, messageData.response);
+    //    setResponse(messageData.request, messageData.response);
     setResponse(messageData.request, messageData.response, match);
     sendMessage("@" + messageData.gamertag + " has created a new party! (" + time + " - " + date + ")\n To join, type `/slotbot join party " + partyID + "`", messageData.request.body.response_url);
 }
